@@ -1,5 +1,5 @@
 ## Titanium Mobile SDK Tests
-
+[![Build Status](https://travis-ci.org/appcelerator/titanium_mobile_tests.svg?branch=master)](https://travis-ci.org/appcelerator/titanium_mobile_tests)
 This repo contains test suites for testing Titanium Mobile SDK.
 
 ## Contributing
