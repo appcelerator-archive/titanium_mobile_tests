@@ -1,0 +1,55 @@
+language: objective-c
+osx_image: xcode7.1
+install:
+
+ - # Need to install jq to process the JSON
+ - brew update || brew update
+ - brew install jq # process JSON 
+
+ - sudo npm install -g titanium
+ - titanium login travisci@appcelerator.com travisci
+ - titanium sdk install latest --no-progress-bars
+
+ - cd $TRAVIS_BUILD_DIR/..
+ - export TRAVIS_USER=${PWD}
+ - cd $TRAVIS_USER
+ - echo $TRAVIS_USER
+ - mkdir -p "$TRAVIS_USER/sdks/"
+
+ - cd "$TRAVIS_USER/sdks/"
+ - wget http://dl.google.com/android/android-sdk_r24.0.2-macosx.zip
+ - unzip -qq -o android-sdk_r24.0.2-macosx.zip
+ - export ANDROID_HOME=${PWD}/android-sdk-macosx
+ - export ANDROID_SDK=$ANDROID_HOME
+ - titanium config android.sdkPath $ANDROID_HOME
+
+ - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+
+ - echo "Installing and configuring Android SDK + Tools"
+
+ - # Install required Android components.
+ - echo yes | android -s update sdk --no-ui --all --filter platform-tools,tools,build-tools-23.0.0,extra-android-support,android-23,addon-google_apis-google-23,sys-img-armeabi-v7a-android-23
+
+ - android list targets
+ - echo no | android create avd --force -n test -t android-23 --abi default/armeabi-v7a
+
+ - cd $TRAVIS_BUILD_DIR
+
+ - emulator -avd test -no-skin -no-audio -no-window &
+
+ - cat ~/.titanium/config.json
+
+ - #include tio2 later
+ - #npm install tio2 -g
+
+script:
+
+ - #tio2 ./ --platform ios
+ - # comment out android part first
+ - #curl -o android_wait_for_emulator.sh https://raw.githubusercontent.com/appcelerator-modules/ci/master/travis/android_wait_for_emulator.sh
+ - #source android_wait_for_emulator.sh
+ - #adb shell input keyevent 82 &
+
+ - #./bin/tio2 ./example --platform android --log-level debug
+
+after_success:
