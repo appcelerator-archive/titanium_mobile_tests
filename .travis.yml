@@ -39,11 +39,12 @@ install:
 
  - cat ~/.titanium/config.json
 
- - npm install tio2 -g
+ - #include tio2 later
+ - #npm install tio2 -g
 
 script:
 
- - ./bin/tio2 ./example --platform ios
+ - #tio2 ./ --platform ios
  - # comment out android part first
  - #curl -o android_wait_for_emulator.sh https://raw.githubusercontent.com/appcelerator-modules/ci/master/travis/android_wait_for_emulator.sh
  - #source android_wait_for_emulator.sh
